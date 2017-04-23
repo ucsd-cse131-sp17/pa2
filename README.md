@@ -6,7 +6,7 @@
 
 ### Errata
 
-`compile_fixed.ml` should be used as a reference to modify or clarify `compile.ml`. If you wish you can replace `compile.ml` with `compile_fixed.ml`, but filling in the failwiths correctly in `compile.ml` will still give you a correct assignment.
+`compile_fixed.ml` should be used as a reference to modify or clarify `compile.ml`. If you wish you can replace `compile.ml` with `compile_fixed.ml`.
 
 ##### Why the confusion?
 This assignment originally had some content about calling conventions in it. We decided to put those off until the next assignment, but didn't fully expunge them from the starter code.

@@ -44,7 +44,8 @@ type instruction =
   | IJmp of string
   | IJno of string
   | IJo of string
-
+  | IJl of string
+  | IJg of string
 
 type prim1 =
   | Add1
@@ -69,11 +70,6 @@ type expr =
   | ENumber of int
   | EBool of bool
   | EId of string
-
-let count = ref 0
-let gen_temp base =
-  count := !count + 1;
-  sprintf "temp_%s_%d" base !count
 
 let r_to_asm (r : reg) : string =
   match r with
@@ -136,6 +132,10 @@ let i_to_asm (i : instruction) : string =
       failwith "TODO: IJo"
     | IJmp(label) ->
       failwith "TODO: IJmp"
+    | IJl(label) ->
+      failwith "TODO: IJl"
+    | IJg(label) ->
+      failwith "TODO: IJg"
     | IRet ->
       " ret"
 
