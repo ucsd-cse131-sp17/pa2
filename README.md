@@ -4,6 +4,32 @@
 
 [Get your repo here](https://classroom.github.com/assignment-invitations/21d16e460f0d988f23eea70a169dfc56)
 
+### Errata
+
+`compile_fixed.ml` should be used as a reference to modify or clarify `compile.ml`. If you wish you can replace `compile.ml` with `compile_fixed.ml`, but filling in the failwiths correctly in `compile.ml` will still give you a correct assignment.
+
+##### Why the confusion?
+This assignment originally had some content about calling conventions in it. We decided to put those off until the next assignment, but didn't fully expunge them from the starter code.
+
+##### What is well_formed_e supposed to do?
+well_formed_e is supposed to return a list of static errors from your source program found during compilation.
+
+##### What is check supposed to do?
+check is now defined in the new repo.
+check is meant to failwith the errors gathered in well_formed_e so compilation terminates and you can see what errors your source program had.
+
+##### Why is check defined above well_formed_e in `compile.ml`?
+Please move to the correct order if you havent already.
+
+##### What does EBP do?
+It is not relevant for this assignment.
+It stands for "Extended Base Pointer". In x86, EBP references the bottom of the current stack window and is used to access a function's parameters and local variables.
+
+##### What is Print in EPrim1?
+Please remove it from `compile.ml` if you havent already.
+
+===============================================================================
+
 In this assignment you'll implement a small language called Boa, which
 implementes a Bitwise Offset Arrangement of different values. It also uses C function calls to implement
 some user-facing operations, like printing and reporting errors.
