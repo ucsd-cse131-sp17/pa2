@@ -144,6 +144,11 @@ let rec find ls x =
     | (y,v)::rest ->
       if y = x then Some(v) else find rest x
 
+let count = ref 0
+let gen_temp base =
+  count := !count + 1;
+  sprintf "temp_%s_%d" base !count
+
 let const_true = HexConst(0xffffffff)
 let const_false = HexConst(0x7fffffff)
 
