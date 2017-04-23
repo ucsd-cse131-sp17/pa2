@@ -164,9 +164,12 @@ let max n m = if n > m then n else m
 
 let check_nums arg1 arg2 = failwith "TODO: check_nums"
 
-let rec check (e : expr) : string list = failwith "TODO: check"
+let check (e : expr) : string list =
+  match well_formed_e e [] with
+    | [] -> []
+    | errs -> failwith String.concat "\n" errs
 
-let rec well_formed_e (e : expr) (env : (string * int) list) =
+let rec well_formed_e (e : expr) (env : (string * int) list) : string list =
   match e with
     | ENumber(_)
     | EBool(_) -> []
