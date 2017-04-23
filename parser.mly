@@ -25,7 +25,6 @@ const :
 prim1 :
   | ADD1 { Add1 }
   | SUB1 { Sub1 }
-  | PRINT { Print }
   | ISBOOL { IsBool }
   | ISNUM { IsNum }
 
@@ -54,4 +53,3 @@ program :
   | expr EOF { $1 }
 
 %%
-
