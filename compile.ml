@@ -3,8 +3,6 @@ open Printf
 type reg =
   | EAX
   | ESP
-  | EBP
-
 
 type size =
   | DWORD_PTR
@@ -50,7 +48,6 @@ type instruction =
 type prim1 =
   | Add1
   | Sub1
-  | Print
   | IsNum
   | IsBool
 
@@ -75,7 +72,6 @@ let r_to_asm (r : reg) : string =
   match r with
     | EAX -> "eax"
     | ESP -> "esp"
-    | EBP -> "ebp"
 
 let s_to_asm (s : size) : string =
   match s with
@@ -154,20 +150,15 @@ let const_false = HexConst(0x7fffffff)
 (* You want to be using C functions to deal with error output here. *)
 let throw_err code = failwith "TODO: throw_err"
 
-let check_overflow = IJo("overflow_check")
-let error_non_int = "error_non_int"
+let error_overflow = "error_overflow"
+let error_non_int  = "error_non_int"
 let error_non_bool = "error_non_bool"
+
+let check_overflow = IJo(error_overflow)
 
 let check_num = failwith "TODO: check_num"
 
-let max n m = if n > m then n else m
-
 let check_nums arg1 arg2 = failwith "TODO: check_nums"
-
-let check (e : expr) : string list =
-  match well_formed_e e [] with
-    | [] -> []
-    | errs -> failwith String.concat "\n" errs
 
 let rec well_formed_e (e : expr) (env : (string * int) list) : string list =
   match e with
@@ -214,25 +205,15 @@ let rec compile_expr (e : expr) (si : int) (env : (string * int) list) : instruc
 
 let compile_to_string prog =
   let static_errors = check prog in
-  let stackjump = 0 in
   let prelude = "section .text
 extern error
 extern print
 global our_code_starts_here
-our_code_starts_here:
-  push ebp
-  mov ebp, esp
-  sub esp, " ^ (string_of_int stackjump) ^ "\n" in
-  let postlude = [
-    IMov(Reg(ESP), Reg(EBP));
-    IPop(Reg(EBP));
-    IRet;
-    ILabel("overflow_check")
-  ]
-  @ (throw_err 3)
-  @ [ILabel(error_non_int)] @ (throw_err 1)
-  @ [ILabel(error_non_bool)] @ (throw_err 2) in
-  let compiled = (compile_expr prog 1 []) in
-  let as_assembly_string = (to_asm (compiled @ postlude)) in
+our_code_starts_here: \n" in
+  let postlude
+    = [ILabel(error_overflow)] @ (throw_err 3)
+    @ [ILabel(error_non_int) ] @ (throw_err 1)
+    @ [ILabel(error_non_bool)] @ (throw_err 2) in
+  let compiled = compile_expr prog 1 [] in
+  let as_assembly_string = to_asm (compiled @ postlude) in
   sprintf "%s%s\n" prelude as_assembly_string
-
