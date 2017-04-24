@@ -215,8 +215,8 @@ extern error
 extern print
 global our_code_starts_here
 our_code_starts_here: \n" in
-  let postlude
-    = [ILabel(error_overflow)] @ (throw_err 3)
+  let postlude = [IRet]
+    @ [ILabel(error_overflow)] @ (throw_err 3)
     @ [ILabel(error_non_int) ] @ (throw_err 1)
     @ [ILabel(error_non_bool)] @ (throw_err 2) in
   let compiled = compile_expr prog 1 [] in
