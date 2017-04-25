@@ -42,10 +42,10 @@ compile.
 - A description of the concrete syntax – the text the programmer writes
 
 - A description of the abstract syntax – how to express what the
-  programmer wrote in a data structure our compiler uses.  As in Boa, this
-  will include a surface `expr` type, and a core `aexpr` type.
+  programmer wrote in a data structure our compiler uses.  As in Anaconda, this
+  will include a `expr` type.
 
-- The _semantics_—or description of the behavior—of the abstrac
+- The _semantics_—or description of the behavior—of the abstract
   syntax, so our compiler knows what the code it generates should do.
 
 
@@ -80,7 +80,6 @@ The concrete syntax of Boa is:
 <bindings> :=
   | <identifier> = <expr>
   | <identifier> = <expr>, <bindings>
-}
 ```
 
 ### Abstract Syntax
@@ -151,26 +150,27 @@ The only errors you will need to check here are:
 
 - Multiple Bindings ie. `ELet(["x", 2], ["y", 5], ["x", 5], x+y)`
 
-  Error string =  " Multiple bindings for variable identifier {id name}"
+  Error string =  "Multiple bindings for variable identifier {id name}"
 
 Note that once an error is found, it should be added to the return string list and check
 should still continue to find any other errors.
 
 #### Error handling with assembly
 
-We will be also asking you to handling errors in the compilation of the program. The only
-errors you will need to check here are:
+We also ask you to handle errors in the compilation of the program. The only
+errors you need to check here are:
 
 - `-`, `+`, `*`, `<`, and `>` should raise an error (by printing it out) with
-  the substring `"expected a number"` if the operation doesn't get two numbers
-  (you can print more than this if you like, but it must be a substring)
+  the string `"expected a number"` if the operation doesn't get two numbers.
+  (You can print more than this if you like, but your message must contain the
+  above string.)
 - `add1` and `sub1` should raise an error with the substring `"expected a
-  number"` if the argument isn't a number
+  number"` if the argument isn't a number.
 - `if` should raise an error with the substring `"expected a boolean"` if the
   conditional value is not a boolean.
 - `+`, `-`, and `*` should raise an error with the substring `"overflow"` if
   the result overflows, and falls outside the range representable in 31 bits.
-  The `jo` instruction (not to be confused with the Joe Instructor) which
+  The `jo` instruction (not to be confused with the Joe Instructor), which
   jumps if the last instruction overflowed, is helpful here.
 
 These error messages should be printed on standard _error_, so use a call like:
@@ -211,7 +211,7 @@ If you look closely you may notice that we aren't updating ESP for our local var
 - `IMul of arg * arg` — Multiply the left argument by the right argument, and
   store in the left argument (typically the left argument is `eax` for us)
 
-  Example: `mul eax, 4`
+  Example: `imul eax, 4`
 
 - `ILabel of string` — Create a location in the code that can be jumped to
   with `jmp`, `jne`, and other jump commands
@@ -271,8 +271,8 @@ have nested `if` expressions, because it won't know which `end_of_if` to `jmp`
 to, for example.  So we need some way of generating new names that we know
 won't conflict.
 
-You've been provided with a function `gen_temp` (meaning “generate
-temporary”) that takes a string and appends the value of a counter to it,
+You've been provided with a function `gen_temp` (meaning "generate
+temporary") that takes a string and appends the value of a counter to it,
 which increases on each call.  You can use `gen_temp` to create fresh names
 for labels and variables, and be guaranteed the names won't overlap as long as
 you use base strings don't have numbers at the end.
@@ -294,11 +294,6 @@ end_of_if2:
 And if there were a _nested_ if expression, it might have labels like
 `else_branch3` and `end_of_if4`.
 
-### A Note on Scope
-
-For this assignment, you can assume that all variables have different names.
-That means in particular you don't need to worry about nested instances of
-variables with the same name, duplicates within a list, etc.
 
 ### Other Constructs
 
