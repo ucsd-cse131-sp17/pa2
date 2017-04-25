@@ -321,7 +321,7 @@ variables with the same name, duplicates within a list, etc.
 
     This tells the assembler to use the “double word” size for 0, which
     corresponds to 32 bits.  A `WORD` corresponds to 16 bits, and a `BYTE`
-    corresponds to 16 bits.  To get a sized argument, you can use the `Sized`
+    corresponds to 8 bits.  To get a sized argument, you can use the `Sized`
     constructor from `arg`.
 
 - `HexConst`
